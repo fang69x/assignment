@@ -8,12 +8,17 @@ import 'package:flutter/material.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   late Future<List<ProductModel>> _products;
+  int _currentCarouselIndex = 0;
+  final Color _primaryColor = const Color(0xFF2A4BA0);
+  final Color _accentColor = const Color(0xFFFFC83A);
+
   @override
   void initState() {
     super.initState();
@@ -27,123 +32,264 @@ class _MyHomePageState extends State<MyHomePage> {
     Category(name: "Books"),
   ];
 
-  List<int> list = [1, 2, 3, 4];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
+      drawer: const Drawer(),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("E-Commerce App"),
+        backgroundColor: _primaryColor,
+        title: const Text(
+          "E-Commerce App",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         actions: [
-          Icon(Icons.search),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: IconButton(
+              icon: const Icon(Icons.search, color: Colors.white),
+              onPressed: () {},
+            ),
+          ),
         ],
       ),
-      body: Center(
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Carousel Section
                 CarouselSlider(
-                  options: CarouselOptions(height: 400.0),
+                  options: CarouselOptions(
+                    height: 200,
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    aspectRatio: 16 / 9,
+                    viewportFraction: 0.9,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _currentCarouselIndex = index;
+                      });
+                    },
+                  ),
                   items: [1, 2, 3, 4, 5].map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            decoration: BoxDecoration(color: Colors.amber),
-                            child: Text(
-                              'text $i',
-                              style: TextStyle(fontSize: 16.0),
-                            ));
-                      },
+                    return Container(
+                      margin: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              'https://picsum.photos/800/400?random=$i'),
+                          fit: BoxFit.cover,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
                     );
                   }).toList(),
                 ),
+                const SizedBox(height: 10),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'Categories',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'More',
-                          style: TextStyle(color: Colors.black),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [0, 1, 2, 3, 4].map((index) {
+                    return Container(
+                      width: 8.0,
+                      height: 8.0,
+                      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _currentCarouselIndex == index
+                            ? _primaryColor
+                            : Colors.grey,
+                      ),
+                    );
+                  }).toList(),
+                ),
+
+                const SizedBox(height: 24),
+
+                // Categories Section
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Categories',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
                         ),
-                        Icon(Icons.navigate_next)
-                      ],
-                    ),
-                  ],
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Row(
+                          children: const [
+                            Text(
+                              'More',
+                              style: TextStyle(color: Color(0xFF2A4BA0)),
+                            ),
+                            Icon(Icons.chevron_right, color: Color(0xFF2A4BA0)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 FlipkartCategoriesSlider(categories: categories),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'Top Deals on Electronics',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'More',
-                          style: TextStyle(color: Colors.black),
+
+                const SizedBox(height: 24),
+
+                // Products Section
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Top Deals',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
                         ),
-                        Icon(Icons.navigate_next)
-                      ],
-                    ),
-                  ],
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Row(
+                          children: const [
+                            Text(
+                              'More',
+                              style: TextStyle(color: Color(0xFF2A4BA0)),
+                            ),
+                            Icon(Icons.chevron_right, color: Color(0xFF2A4BA0)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Expanded(
-                    child: FutureBuilder<List<ProductModel>>(
-                        future: _products,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          } else if (snapshot.hasError) {
-                            return Center(
-                                child: Text('Error : ${snapshot.error}'));
-                          } else if (!snapshot.hasData ||
-                              snapshot.data!.isEmpty) {
-                            return const Center(
-                              child: Text('No products available'),
-                            );
-                          } else {
-                            final products = snapshot.data!;
-                            return GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 0.7,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                ),
-                                itemCount: products.length,
-                                itemBuilder: (context, index) {
-                                  final product = products[index];
-                                  return Card(
-                                    child: Column(
-                                      children: [
-                                        Image.network(product.image,
-                                            height: 100, width: 100),
-                                        Text(product.title),
-                                        Text(
-                                            '\$${product.price.toStringAsFixed(2)}'),
-                                        Text('Rating: ${product.rating.rate}'),
-                                      ],
+                FutureBuilder<List<ProductModel>>(
+                  future: _products,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child:
+                            CircularProgressIndicator(color: Color(0xFF2A4BA0)),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Column(
+                          children: const [
+                            Icon(Icons.error, color: Colors.red, size: 40),
+                            SizedBox(height: 10),
+                            Text(
+                              'Failed to load products',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          'No products available',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      );
+                    } else {
+                      final products = snapshot.data!;
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.7,
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 15,
+                        ),
+                        itemCount: products.length,
+                        itemBuilder: (context, index) {
+                          final product = products[index];
+                          return Card(
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: Image.network(
+                                        product.image,
+                                        fit: BoxFit.contain,
+                                        height: 120,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                const Icon(Icons.error),
+                                      ),
                                     ),
-                                  );
-                                });
-                          }
-                        }))
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    product.title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    '\$${product.price.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: _primaryColor,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: _accentColor,
+                                        size: 16,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        '${product.rating.rate} (${product.rating.count})',
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ),

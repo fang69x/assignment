@@ -1,61 +1,80 @@
-import 'package:assignment/core/model/category_model.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:assignment/core/model/category_model.dart';
 
-class FlipkartCategoriesSlider extends StatelessWidget {
-  final List<Category> categories;
+class CategoriesSlider extends StatelessWidget {
+  CategoriesSlider({Key? key}) : super(key: key);
 
-  const FlipkartCategoriesSlider({Key? key, required this.categories})
-      : super(key: key);
+  final List<Category> categories = [
+    Category(name: "Electronics"),
+    Category(name: "Jewelery"),
+    Category(name: "Men's Clothing"),
+    Category(name: "Women's Clothing"),
+  ];
+
+  // Map categories to their corresponding icons
+  final Map<String, IconData> categoryIcons = {
+    "Electronics": Icons.devices,
+    "Jewelery": Icons.diamond_outlined,
+    "Men's Clothing": Icons.male,
+    "Women's Clothing": Icons.female,
+  };
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider.builder(
-      itemCount: categories.length,
-      options: CarouselOptions(
-        height: 150,
-        enlargeCenterPage: true, // Enlarges the center item
-        enableInfiniteScroll: false,
-        viewportFraction: 0.3, // Each item takes ~30% of the screen width
-      ),
-      itemBuilder: (context, index, realIndex) {
-        final category = categories[index];
-        return GestureDetector(
-          onTap: () {
-            // Handle category tap, e.g., navigate to category details.
-            print("Tapped on ${category.name}");
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Card-like container for a nicer look (similar to Flipkart)
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
+    return SizedBox(
+      height: 120,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: categories.length,
+        itemBuilder: (context, index) {
+          final category = categories[index];
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: GestureDetector(
+              onTap: () {
+                // TODO: Implement category navigation
+                print("Tapped on ${category.name}");
+              },
+              child: Column(
+                children: [
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                padding: EdgeInsets.all(10),
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.grey[200],
-                ),
+                    child: Center(
+                      child: Icon(
+                        categoryIcons[category.name],
+                        size: 40,
+                        color: const Color(0xFF2A4BA0),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    category.name,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 8),
-              Text(
-                category.name,
-                style: TextStyle(fontSize: 14),
-              ),
-            ],
-          ),
-        );
-      },
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -65,8 +65,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Carousel Section
                 CarouselSlider(
                   options: CarouselOptions(
-                    height: 200,
+                    height: 250, // Increased height for better visibility
                     autoPlay: true,
+                    autoPlayInterval: const Duration(seconds: 3),
                     enlargeCenterPage: true,
                     aspectRatio: 16 / 9,
                     viewportFraction: 0.9,
@@ -80,20 +81,109 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Container(
                       margin: const EdgeInsets.all(5.0),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              'https://picsum.photos/800/400?random=$i'),
-                          fit: BoxFit.cover,
-                        ),
+                        borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
+                            color: Colors.black.withOpacity(0.2),
                             spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
                           ),
                         ],
+                      ),
+                      child: Stack(
+                        children: [
+                          // Image with gradient overlay
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    'https://picsum.photos/800/400?random=$i'),
+                                fit: BoxFit.cover,
+                              ),
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  Colors.black.withOpacity(0.6),
+                                  Colors.transparent,
+                                ],
+                              ),
+                            ),
+                          ),
+                          // Text content
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'New Collection $i',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1.2,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Discover the latest trends in fashion',
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.9),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                                Row(
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.blueAccent,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 25, vertical: 12),
+                                        elevation: 3,
+                                      ),
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'Shop Now',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+
+// Custom indicator
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [1, 2, 3, 4, 5].asMap().entries.map((entry) {
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: _currentCarouselIndex == entry.key ? 20 : 8,
+                      height: 8,
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: _currentCarouselIndex == entry.key
+                            ? Colors.blueAccent
+                            : Colors.white.withOpacity(0.7),
                       ),
                     );
                   }).toList(),
@@ -147,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                 ),
-                FlipkartCategoriesSlider(categories: categories),
+                CategoriesSlider(),
 
                 const SizedBox(height: 24),
 

@@ -1,6 +1,7 @@
 import 'package:assignment/api/apifetch.dart';
 import 'package:assignment/core/model/category_model.dart';
 import 'package:assignment/core/model/product_model.dart';
+import 'package:assignment/widgets/carousel_slider.dart';
 import 'package:assignment/widgets/flipkartslider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -66,105 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Carousel Section
-                CarouselSlider(
-                  options: CarouselOptions(
-                    height: 250,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 3),
-                    enlargeCenterPage: true,
-                    aspectRatio: 16 / 9,
-                    viewportFraction: 0.9,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _currentCarouselIndex = index;
-                      });
-                    },
-                  ),
-                  items: [1, 2, 3, 4, 5].map((i) {
-                    return Container(
-                      margin: const EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: _textColor.withOpacity(0.1),
-                            spreadRadius: 2,
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  _textColor.withOpacity(0.6),
-                                  Colors.transparent,
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'New Collection $i',
-                                  style: TextStyle(
-                                    color: _bgColor,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1.2,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Discover the latest trends in fashion',
-                                  style: TextStyle(
-                                    color: _bgColor.withOpacity(0.9),
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  children: [
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: _accentColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 25, vertical: 12),
-                                        elevation: 3,
-                                      ),
-                                      onPressed: () {},
-                                      child: Text(
-                                        'Shop Now',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                          color: _textColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
+                EcommerceBannerSlider(
+                  primaryColor: _primaryColor,
+                  bgColor: _bgColor,
+                  accentColor: _accentColor,
+                  textColor: _textColor,
                 ),
 
                 // Carousel Indicators

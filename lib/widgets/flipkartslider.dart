@@ -11,65 +11,79 @@ class CategoriesSlider extends StatelessWidget {
     Category(name: "Women's Clothing"),
   ];
 
-  // Map categories to their corresponding icons
   final Map<String, IconData> categoryIcons = {
-    "Electronics": Icons.devices,
+    "Electronics": Icons.devices_other_rounded,
     "Jewelery": Icons.diamond_outlined,
-    "Men's Clothing": Icons.male,
-    "Women's Clothing": Icons.female,
+    "Men's Clothing": Icons.man_rounded,
+    "Women's Clothing": Icons.woman_rounded,
   };
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 120,
+      height: 140,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         itemBuilder: (context, index) {
           final category = categories[index];
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: GestureDetector(
+            child: InkWell(
               onTap: () {
-                // TODO: Implement category navigation
                 print("Tapped on ${category.name}");
               },
-              child: Column(
-                children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                width: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFF2A4BA0), Color(0xFF153075)],
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
                     ),
-                    child: Center(
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        shape: BoxShape.circle,
+                      ),
                       child: Icon(
                         categoryIcons[category.name],
-                        size: 40,
-                        color: const Color(0xFF2A4BA0),
+                        size: 32,
+                        color: Colors.white,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    category.name,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black87,
+                    const SizedBox(height: 12),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Text(
+                        category.name,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          height: 1.2,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );

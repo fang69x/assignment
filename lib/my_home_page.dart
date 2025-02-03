@@ -97,11 +97,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    'https://picsum.photos/800/400?random=$i'),
-                                fit: BoxFit.cover,
-                              ),
+                              // image: DecorationImage(
+                              //   image: NetworkImage(
+                              //       'https://picsum.photos/800/400?random=$i'),
+                              //   fit: BoxFit.cover,
+                              // ),
                               gradient: LinearGradient(
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.topCenter,

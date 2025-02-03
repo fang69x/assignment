@@ -16,8 +16,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late Future<List<ProductModel>> _products;
   int _currentCarouselIndex = 0;
-  final Color _primaryColor = const Color(0xFF2A4BA0);
-  final Color _accentColor = const Color(0xFFFFC83A);
+  final Color _primaryColor = const Color(0xFF3B63A8); // Medium Sapphire
+  final Color _accentColor = const Color(0xFF7CB9F2); // Aero
+  final Color _bgColor = const Color(0xFFF7F7F7); // White Smoke
+  final Color _textColor = const Color(0xFF0C1421); // Eigengrau
 
   @override
   void initState() {
@@ -38,23 +40,24 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: const Drawer(),
       appBar: AppBar(
         backgroundColor: _primaryColor,
-        title: const Text(
+        title: Text(
           "E-Commerce App",
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: _bgColor,
           ),
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: IconButton(
-              icon: const Icon(Icons.search, color: Colors.white),
+              icon: Icon(Icons.search, color: _bgColor),
               onPressed: () {},
             ),
           ),
         ],
       ),
+      backgroundColor: _bgColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -65,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Carousel Section
                 CarouselSlider(
                   options: CarouselOptions(
-                    height: 250, // Increased height for better visibility
+                    height: 250,
                     autoPlay: true,
                     autoPlayInterval: const Duration(seconds: 3),
                     enlargeCenterPage: true,
@@ -84,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
+                            color: _textColor.withOpacity(0.1),
                             spreadRadius: 2,
                             blurRadius: 8,
                             offset: const Offset(0, 4),
@@ -93,26 +96,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       child: Stack(
                         children: [
-                          // Image with gradient overlay
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              // image: DecorationImage(
-                              //   image: NetworkImage(
-                              //       'https://picsum.photos/800/400?random=$i'),
-                              //   fit: BoxFit.cover,
-                              // ),
                               gradient: LinearGradient(
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.topCenter,
                                 colors: [
-                                  Colors.black.withOpacity(0.6),
+                                  _textColor.withOpacity(0.6),
                                   Colors.transparent,
                                 ],
                               ),
                             ),
                           ),
-                          // Text content
                           Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: Column(
@@ -121,8 +117,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: [
                                 Text(
                                   'New Collection $i',
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                  style: TextStyle(
+                                    color: _bgColor,
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 1.2,
@@ -132,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Text(
                                   'Discover the latest trends in fashion',
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: _bgColor.withOpacity(0.9),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -141,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   children: [
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.blueAccent,
+                                        backgroundColor: _accentColor,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(25),
@@ -151,11 +147,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                         elevation: 3,
                                       ),
                                       onPressed: () {},
-                                      child: const Text(
+                                      child: Text(
                                         'Shop Now',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 14,
+                                          color: _textColor,
                                         ),
                                       ),
                                     ),
@@ -170,25 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }).toList(),
                 ),
 
-// Custom indicator
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [1, 2, 3, 4, 5].asMap().entries.map((entry) {
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      width: _currentCarouselIndex == entry.key ? 20 : 8,
-                      height: 8,
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        color: _currentCarouselIndex == entry.key
-                            ? Colors.blueAccent
-                            : Colors.white.withOpacity(0.7),
-                      ),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 10),
+                // Carousel Indicators
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [0, 1, 2, 3, 4].map((index) {
@@ -200,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         shape: BoxShape.circle,
                         color: _currentCarouselIndex == index
                             ? _primaryColor
-                            : Colors.grey,
+                            : _accentColor.withOpacity(0.3),
                       ),
                     );
                   }).toList(),
@@ -214,23 +193,23 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Categories',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: _textColor,
                         ),
                       ),
                       TextButton(
                         onPressed: () {},
                         child: Row(
-                          children: const [
+                          children: [
                             Text(
                               'More',
-                              style: TextStyle(color: Color(0xFF2A4BA0)),
+                              style: TextStyle(color: _primaryColor),
                             ),
-                            Icon(Icons.chevron_right, color: Color(0xFF2A4BA0)),
+                            Icon(Icons.chevron_right, color: _primaryColor),
                           ],
                         ),
                       ),
@@ -247,23 +226,23 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Top Deals',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: _textColor,
                         ),
                       ),
                       TextButton(
                         onPressed: () {},
                         child: Row(
-                          children: const [
+                          children: [
                             Text(
                               'More',
-                              style: TextStyle(color: Color(0xFF2A4BA0)),
+                              style: TextStyle(color: _primaryColor),
                             ),
-                            Icon(Icons.chevron_right, color: Color(0xFF2A4BA0)),
+                            Icon(Icons.chevron_right, color: _primaryColor),
                           ],
                         ),
                       ),
@@ -274,16 +253,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   future: _products,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child:
-                            CircularProgressIndicator(color: Color(0xFF2A4BA0)),
+                      return Center(
+                        child: CircularProgressIndicator(color: _primaryColor),
                       );
                     } else if (snapshot.hasError) {
                       return Center(
                         child: Column(
-                          children: const [
+                          children: [
                             Icon(Icons.error, color: Colors.red, size: 40),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Text(
                               'Failed to load products',
                               style: TextStyle(color: Colors.red),
@@ -292,10 +270,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       );
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(
+                      return Center(
                         child: Text(
                           'No products available',
-                          style: TextStyle(color: Colors.grey),
+                          style: TextStyle(color: _textColor.withOpacity(0.6)),
                         ),
                       );
                     } else {
@@ -318,6 +296,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
+                            color: Colors.white,
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Column(
@@ -340,8 +319,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     product.title,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontWeight: FontWeight.w500,
+                                      color: _textColor,
                                     ),
                                   ),
                                   const SizedBox(height: 4),
@@ -364,9 +344,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                       const SizedBox(width: 4),
                                       Text(
                                         '${product.rating.rate} (${product.rating.count})',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 12,
-                                          color: Colors.grey,
+                                          color: _textColor.withOpacity(0.6),
                                         ),
                                       ),
                                     ],

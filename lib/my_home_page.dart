@@ -96,6 +96,9 @@ class _MyHomePageState extends State<MyHomePage>
               SliverToBoxAdapter(
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 10,
+                    ),
                     EcommerceBannerSlider(
                       primaryColor: _primaryColor,
                       bgColor: _bgColor,

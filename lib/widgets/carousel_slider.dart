@@ -24,6 +24,8 @@ class _EcommerceBannerSliderState extends State<EcommerceBannerSlider> {
   final List<Map<String, dynamic>> _banners = [
     {'image': 'assets/posters/1.jpg'},
     {'image': 'assets/posters/2.jpg'},
+    {'image': 'assets/posters/3.jpg'},
+    {'image': 'assets/posters/4.jpg'},
   ];
 
   @override
@@ -61,9 +63,9 @@ class _EcommerceBannerSliderState extends State<EcommerceBannerSlider> {
 
   Widget _buildBannerItem(Map<String, dynamic> banner) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      margin: const EdgeInsets.symmetric(horizontal: 0.01),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(5),
         boxShadow: [
           BoxShadow(
             color: widget.textColor.withOpacity(0.2),
